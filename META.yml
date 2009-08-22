@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               DBIx-Simple-Procedure
-version:            1.22
-abstract:           An Alternative To DB Stored Procedures using DBIx::Simple
+version:            1.30
+abstract:           An Alternative To SQL Stored Procedures using DBIx::Simple
 author:
     - Al Newkirk <al.newkirk@awnstudio.com>
 license:            perl
