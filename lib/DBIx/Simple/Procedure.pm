@@ -10,11 +10,11 @@ DBIx::Simple::Procedure - An Alternative To SQL Stored Procedures using DBIx::Si
 
 =head1 VERSION
 
-Version 1.31
+Version 1.32
 
 =cut
 
-our $VERSION = '1.31';
+our $VERSION = '1.32';
 our @properties = caller();
 
 =head1 SYNOPSIS
