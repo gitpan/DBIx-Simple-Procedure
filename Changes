@@ -1,0 +1,12 @@
+Revision history for DBIx-Simple-Procedure
+
+0.01    Date/time
+        First version, released on an unsuspecting world.
+1.30    08/21/2009 10:27 PM EST
+        Added validif command, a synonym for the proceed command
+        Fixed how the proceed command handles empty placeholders
+        Fixed the declare command to append custom parameters instead of overwriting
+        Added the examine command to aid in debugging procedures, the examine command errors out with the passed statement
+        Create a standardized error message via the _error routine
+        Fixed cursor counter
+        Fixed processor method, was ignoring statement with multiple placeholders
