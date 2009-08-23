@@ -1,6 +1,7 @@
 use strict;
 use warnings;
-use ExtUtils::MakeMaker;
+#use ExtUtils::MakeMaker;
+use inc::Module::Install;
 
 WriteMakefile(
     NAME                => 'DBIx::Simple::Procedure',
