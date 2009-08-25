@@ -1,0 +1,17 @@
+# mysql example
+! setting blank as zero
+
+! execute create table if not exists `group` (`id` int(11) auto_increment, `info` varchar(255) not null, primary key(`id`) )
+! execute truncate table `group`
+
+! declare select '0' as `count`
+! execute insert into `group` values (null, concat_ws(' ', 'I typed', $0, ($!count + 1), 'times.'))
+
+# begin loop
+! declare select count(*) as `count` from `group`
+! validif $!count < 5
+! forward 4
+! ifvalid 1
+# end loop
+
+! capture select * from `group`
