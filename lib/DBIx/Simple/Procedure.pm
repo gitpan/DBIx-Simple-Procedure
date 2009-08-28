@@ -10,16 +10,16 @@ DBIx::Simple::Procedure - An Alternative To SQL Stored Procedures using DBIx::Si
 
 =head1 VERSION
 
-Version 1.57
+Version 1.60
 
 =cut
 
-our $VERSION = '1.57';
+our $VERSION = '1.60';
 our @properties = caller();
 
 =head1 SYNOPSIS
 
-This module allow your program to process text files containing one or many
+This module allows your program to process text files containing one or many
 commands that execute SQL statements sequentially. Please keep in mind that
 DBIx::Simple::Procedure is an alternative to database stored procedures and not
 a replacement or emulation of them. Essentially it is an interface to execute
@@ -46,7 +46,7 @@ Here is an example of how to setup and process a (sql) text file.
     # return by the select statements encountered in the sql file.
     # Note! files included using the "include" command will not have there resultsets cached,
     # even if a "capture" command is encountered, only the select statement(s) found in the
-    # initial sql file are cached in the order they are encountered.
+    # initial sql file are cached in the order they are encountered. 
     
     foreach my $result (@{$db->cache(0)}){
         # do something with the records of the first resultset
@@ -89,7 +89,7 @@ Note! multi-line sql statements not supported in this release.
         (perl code) for truth, if true, it continues if false it skips to the next proceed
         command or until the end of the sql file.
     
-    ! ifvalid:
+    ! ifvalid: [validif:]
         This command is a synonym for proceed.
     
     ! storage:
@@ -109,6 +109,10 @@ Note! multi-line sql statements not supported in this release.
     
     ! process:
         This command takes an index and executes that command line.
+    
+    ! perl -e:
+        This command passes the statement to perl's eval function which can evaluate perl code
+        and even runtime variables.
     
     ! examine:
         This command is used for debugging, it errors out with the compiled statement passed to it.
@@ -178,16 +182,39 @@ Inside the test.pl script.
     }
      
     print "\nDone. Found " . ( @{$db->cache(0)} || 0 ) . " records";
-    
+
+=head1 PASSED-IN PARAMETERS Vs. CUSTOM PARAMETERS
+
+The difference between (what we refer to as) passed-in parameters and custom parameters 
+is determined by how those values are passed to the process_queue and process_command methods.
+They are also differentiated by the expressions used identify them. Technically, passed-in
+parameters and custom parameters are one in the same. Passed-in parameters are passed to
+the process_command and process_queue methods as an array of values and are referred to in the
+sql file using expressions like this: [$0, $1, $2, $3]. Custom parameters are passed to the
+process_command and process_queue methods as a hash reference and are referred to in the sql file
+using expressions like this: [$!hashrefkey1, $!hashrefkey2].
+
 =head1 MORE SQL COMMAND FILE EXAMPLES
 
 Replacing passed in parameters.
 
     ... in script
-    $dsp->queue(...)->process_queue({'foo' => 'bar'});
+    $dsp->queue(...)->process_queue('this', 'that');
     ... in sql file
     ! replace select 'baz' as `foo`
-    # $!foo in the sql command file now has the value 'baz'
+    # $0 in the sql command file was 'this' and now has the value 'baz'
+    # $1 in the sql command file was 'that' and now has no value or is undefined
+    # basically, the replace command overwrites @_ (all passed in values)
+    
+    Alternatively...
+    
+    ... in script
+    $dsp->queue(...)->process_queue('this', 'that', { foo => 'the', bar => 'other'});
+    ... in sql file
+    ! declare select 'baz' as `foo`
+    # $0, and $1 in the sql command file are left untouched
+    # $!foo in the sql command file was 'the' and now has the value 'baz'
+    # basically, the declare command updates or appends the internal (custom parameters) hash
 
 Using the storage, forward and process commands.
 
@@ -214,7 +241,7 @@ file will execute but not as you intended.
 
 =head2 new
 
-The new method instantiates a new DBIx::Simple and DBIx::Simple::Procedure object and accepts all parameters
+The new method initializes a new DBIx::Simple and DBIx::Simple::Procedure object and accepts all parameters
 required/accepted by DBIx::Simple.
 
 =cut
@@ -335,6 +362,13 @@ sub _load_commands {
         $self->{settings}->{blank} = '' if (lc($statement) eq 'blank as blank');
         $self->{settings}->{blank} = 'NULL' if (lc($statement) eq 'blank as null');
     };
+    
+    #! perl -e: provides access to perl's eval function
+    $self->{commands}->{perl} = sub {
+        my ($statement, @parameters) = @_;
+        $statement =~ s/^\-e//;
+        eval $statement;
+    }
 }
 
 # The _execute_query method is an internal method for executing queries against the databse in

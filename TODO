@@ -1,0 +1,4 @@
+# DBIx::Simple::Procedure Todo List
+
+-   [x] Fix Manifest, and use DBIx::Simple (not as base). 
+-   [x] Add an evaluation command to evaluate perl code as opposed to proceed which evaluates but includes other logic.

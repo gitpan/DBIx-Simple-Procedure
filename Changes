@@ -18,3 +18,7 @@ Revision history for DBIx-Simple-Procedure
         Included better documentation
         The include command now passes existing custom parameters
         Fixed the clear command to include re-initializing the resultsets, the queue, etc
+1.60    08/28/2009 7:40 PM EST
+        Fixed/Added documentation
+        Add access to perl's evaluation function via the [! perl -e] command
+        Fixed installer to include DBIx::Simple
