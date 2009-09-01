@@ -10,11 +10,11 @@ DBIx::Simple::Procedure - An Alternative To SQL Stored Procedures using DBIx::Si
 
 =head1 VERSION
 
-Version 1.60
+Version 1.61
 
 =cut
 
-our $VERSION = '1.60';
+our $VERSION = '1.61';
 our @properties = caller();
 
 =head1 SYNOPSIS
@@ -257,7 +257,12 @@ sub new {
     return $self;
 }
 
-# The _load_commands method is an internal method for build the commands dispatch table.
+=begin ignore
+
+The _load_commands method is an internal method for build the commands dispatch table.
+
+=end ignnore
+=cut
 
 sub _load_commands {
     my $self = shift;
@@ -371,8 +376,13 @@ sub _load_commands {
     }
 }
 
-# The _execute_query method is an internal method for executing queries against the databse in
-# a standardized fashion.
+=begin ignore
+
+The _execute_query method is an internal method for executing queries against the databse in
+a standardized fashion.
+
+=end ignnore
+=cut
 
 sub _execute_query {
     my ($self, $statement, @parameters) = @_;
@@ -380,7 +390,12 @@ sub _execute_query {
     return $resultset;
 }
 
-# The _error method is an internal method that dies with a standardized error message.
+=begin ignore
+
+The _error method is an internal method that dies with a standardized error message.
+
+=end ignnore
+=cut
 
 sub _error {
     my ($self, $message, @parameters) = @_;
@@ -394,7 +409,12 @@ sub _error {
     ( $message || $self->{dbix}->error || "Check the sql file for errors" ) . ".";
 }
 
-# The _processor method is an internal methoed that when passed a command hashref, processes the command.
+=begin ignnore
+
+The _processor method is an internal methoed that when passed a command hashref, processes the command.
+
+=end ignnore
+=cut
 
 sub _processor {
     my ($self, $cmdref) = @_;
@@ -439,8 +459,13 @@ sub _processor {
     }
 }
 
-# The _parse_parameters method examines each initially passed in parameter specifically looking for a hashref
-# to add its values to the custom parameters key.
+=begin ignnore
+
+The _parse_parameters method examines each initially passed in parameter specifically looking for a hashref
+to add its values to the custom parameters key.
+
+=end ignnore
+=cut
 
 sub _parse_parameters {
     my ($self, @parameters) = @_;
@@ -457,7 +482,12 @@ sub _parse_parameters {
     return $self;
 }
 
-# The _parse_sqlfile method scans the passed (sql) text file and returns a list of sql statement queue objects.
+=begin ignnore
+
+The _parse_sqlfile method scans the passed (sql) text file and returns a list of sql statement queue objects.
+
+=end ignnore
+=cut
 
 sub _parse_sqlfile {
     my ($self, $sqlfile) = @_;
@@ -481,7 +511,12 @@ sub _parse_sqlfile {
     return @statements;
 }
 
-# The _validate_sqlfile method make sure that the supplied (sql) text file conforms to its command(s) rules.
+=begin ignnore
+
+The _validate_sqlfile method make sure that the supplied (sql) text file conforms to its command(s) rules.
+
+=end ignnore
+=cut
 
 sub _validate_sqlfile {
     my ($self, @statements) = @_;

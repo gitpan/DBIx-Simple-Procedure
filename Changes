@@ -22,3 +22,5 @@ Revision history for DBIx-Simple-Procedure
         Fixed/Added documentation
         Add access to perl's evaluation function via the [! perl -e] command
         Fixed installer to include DBIx::Simple
+1.61    09/01/2009 9:17AM EST
+        Fixed a few common installation issues

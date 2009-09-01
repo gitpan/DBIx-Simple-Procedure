@@ -7,12 +7,16 @@ BEGIN {
 
 use DBIx::Simple::Procedure;
 
+print "\nTesting DBIx::Simple::Procedure using your local mysql server with env vars " .
+      '$ENV{MYSQLDBUSER} and $ENV{MYSQLDBPASS} as your database credentials. Please set them' .
+      ' and re-install if test fails.' . "\n";
+
 # connecting to a mysql database
 my $fs = "$FindBin::Bin/sql/";
 my $db = DBIx::Simple::Procedure->new(
     $fs,
     'dbi:mysql:database=test', # dbi source specification
-    'root', '',                     # username and password
+    ($ENV{MYSQLDBUSER} || 'root' ), $ENV{MYSQLDBPASS}, # username and password
 );
 
 $db->queue('tables/users/getall')->process_queue('this is a test');

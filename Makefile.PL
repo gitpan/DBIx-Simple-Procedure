@@ -10,7 +10,7 @@ WriteMakefile(
     LICENSE             => 'perl',
     PL_FILES            => {},
     PREREQ_PM => {
-        'DBIx::Simple' => 1,
+        'DBIx::Simple' => 0,
         'Test::More' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
